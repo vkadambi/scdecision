@@ -1,4 +1,5 @@
 import numpy as np
+#import numpy.ma as ma 
 import math
 import random
 def stone (z,v,aU,aL,s,h,n,maxiter) :
@@ -7,11 +8,11 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
     rhs = (math.sqrt(h))*s
     resp=[]
     rt=[]
-    nDotsVector=[0.3,0.3,0.3,0.3,0.3]
+    nDotsVector=np.ones(Maxiter)
     for i in range(N):
         x=z
         iter=0
-        resp.append(float(-1.0))
+        resp.append(np.nan)
         while (iter<Maxiter):
             nDots = nDotsVector[iter]
             iter=iter+1
@@ -28,21 +29,21 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         result.append(temp)
-    print (result)
+    return result
 def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
     resp=[]
     rt=[]
-    nDotsVector=[1,1,1,1,1]
+    nDotsVector=np.ones(Maxiter)
     # weight for expotentionally-weighted moving average 
     # alpha = (h)/(h+timecons)
     alpha = timecons/(timecons+h)
     for i in range(N):
         x=z
         iter=0
-        resp.append(float(-1.0))
+        resp.append(np.nan)
         while (iter<Maxiter):
             nDots = nDotsVector[iter]
             iter=iter+1
@@ -62,19 +63,19 @@ def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         result.append(temp)
-    print (result)
+    return result
 def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
     resp=[]
     rt=[]
-    nDotsVector=[1,1,1,1,1]
+    nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
         x=z
         iter=0
-        resp.append(float(-1.0))
+        resp.append(np.nan)
         while (iter<Maxiter):
             nDots = nDotsVector[iter]
             iter=iter+1
@@ -91,14 +92,14 @@ def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         result.append(temp)
-    print (result)
+    return result
 def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s 
     resp=[]
     rt=[]
-    nDotsVector=[1,1,1,1,1]    
+    nDotsVector=np.ones(Maxiter)    
     #weight for exponentially-weighted moving average
     #alpha=(*h)/((*h)+(*imecons));
     alpha=(timecons)/(timecons+h)
@@ -106,7 +107,7 @@ def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
         samplev=v+eta*np.random.normal()
         x=z
         iter=0
-        resp.append(float(-1.0))
+        resp.append(np.nan)
         while (iter<Maxiter):
             nDots = nDotsVector[iter]
             iter=iter+1
@@ -124,19 +125,19 @@ def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         result.append(temp)
-    print (result)
+    return result
 def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
     resp=[]
     rt=[]
-    nDotsVector=[1,1,1,1,1]
+    nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
         x=zmin+(zmax-zmin)*np.random.uniform()
         iter=0
-        resp.append(float(-1.0))
+        resp.append(np.nan)
         while (iter<Maxiter):
             nDots = nDotsVector[iter]
             iter=iter+1
@@ -153,19 +154,19 @@ def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         result.append(temp)
-    print (result)
+    return result
 def ratcliffUGM (zmin,zmax,v,aU,aL,eta,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
     resp=[]
     rt=[]
-    nDotsVector=[1,1,1,1,1]
+    nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
         x=zmin+(zmax-zmin)*np.random.uniform()
         iter=0
-        resp.append(float(-1.0))
+        resp.append(np.nan)
         while (iter<Maxiter):
             nDots = nDotsVector[iter]
             iter=iter+1
@@ -183,4 +184,4 @@ def ratcliffUGM (zmin,zmax,v,aU,aL,eta,timecons,usign,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         result.append(temp)
-    print (result)
+    return result
