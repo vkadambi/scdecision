@@ -3,26 +3,36 @@ import numpy as np
 import pandas as pd
 import math
 import random
+
+# Date            Programmers                         Descriptions of Change
+# ====         ================                       ======================
+# 08/15/19        Vai                              Original code
+
 def stone (z,v,aU,aL,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
     resp=[]
     rt=[]
+    #evidence = np.empty((maxiter,n))
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         x=z
         iter=0
-        resp.append(np.nan)
-        while (iter<Maxiter):
+        # resp.append(np.nan) #Delete this
+        while (iter<=Maxiter): #Note difference here
             nDots = nDotsVector[iter]
             iter=iter+1
             x=x+h*(v*nDots)+rhs*np.random.normal()
+            # evidence[iter-1,i] = x
             if (x>=aU):
-                resp.append(float(-1.0))
+                resp.append(float(1.0)) #This switch is convention
                 break
             if (x<=aL):
-                resp.append(float(1.0))
+                resp.append(float(-1.0)) #This switch is convention
+                break
+            if (iter==Maxiter): #New if statement
+                resp.append(np.nan)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
@@ -30,15 +40,16 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    result=pd.Series(data) #what exactly is Series in Panda
-    result.plot.hist(grid=True, bins=1, rwidth=0.9,color='#607c8e')
-    plt.title('Stone Data')
-    plt.xlabel('Counts')
-    plt.ylabel('Reaction Times')
-    plt.grid(axis='y', alpha=0.75)
-    plt.savefig("stone.png")
+    #Get rid of this
+    # result=pd.Series(data) #what exactly is Series in Panda
+    # result.plot.hist(grid=True, bins=1, rwidth=0.9,color='#607c8e')
+    # plt.title('Stone Data')
+    # plt.xlabel('Counts')
+    # plt.ylabel('Reaction Times')
+    # plt.grid(axis='y', alpha=0.75)
+    # plt.savefig("stone.png")
     print (data)
-    return data
+    return resp, rt, data #Return all three to test
 def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
