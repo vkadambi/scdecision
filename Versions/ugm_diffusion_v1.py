@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import seaborn as sns
 import numpy as np
 import pandas as pd
 import math
@@ -31,11 +32,10 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
         temp=resp[i]*rt[i]
         data.append(temp)
     result=pd.Series(data)
-    result.plot.hist(grid=True, bins=1, rwidth=0.9,color='#607c8e')
-    plt.title('Stone Data')
-    plt.xlabel('Counts')
-    plt.ylabel('Reaction Times')
-    plt.grid(axis='y', alpha=0.75)
+    sns.distplot(result, hist=True, kde=False,bins=int(180/5), color = 'blue',hist_kws={'edgecolor':'black'})
+    plt.title('Histogram of Stone Data')
+    plt.xlabel('Reaction Times')
+    plt.ylabel('Frequency')
     plt.savefig("stone.png")
     print (data)
     return data
@@ -72,12 +72,11 @@ def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    result=pd.Series(data) #what exactly is Series in Panda
-    result.plot.hist(grid=True, bins=1, rwidth=0.9,color='#607c8e')
-    plt.title('Stone Data')
-    plt.xlabel('Counts')
-    plt.ylabel('Reaction Times')
-    plt.grid(axis='y', alpha=0.75)
+    result=pd.Series(data)
+    sns.distplot(result, hist=True, kde=False,bins=int(180/5), color = 'blue',hist_kws={'edgecolor':'black'})
+    plt.title('Histogram of StoneUGM Data')
+    plt.xlabel('Reaction Times')
+    plt.ylabel('Frequency')
     plt.savefig("stoneUGM.png")
     print (data)
     return data
@@ -109,12 +108,11 @@ def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    result=pd.Series(data) #what exactly is Series in Panda
-    result.plot.hist(grid=True, bins=1, rwidth=0.9,color='#607c8e')
-    plt.title('Stone Data')
-    plt.xlabel('Counts')
-    plt.ylabel('Reaction Times')
-    plt.grid(axis='y', alpha=0.75)
+    result=pd.Series(data)
+    sns.distplot(result, hist=True, kde=False,bins=int(180/5), color = 'blue',hist_kws={'edgecolor':'black'})
+    plt.title('Histogram of StoneEta Data')
+    plt.xlabel('Reaction Times')
+    plt.ylabel('Frequency')
     plt.savefig("stoneEta.png")
     print (data)
     return data
@@ -150,13 +148,12 @@ def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    result=pd.Series(data) #what exactly is Series in Panda
-    result.plot.hist(grid=True, bins=1, rwidth=0.9,color='#607c8e')
-    plt.title('Stone Data')
-    plt.xlabel('Counts')
-    plt.ylabel('Reaction Times')
-    plt.grid(axis='y', alpha=0.75)
-    plt.savefig("ratcliff.png")
+    result=pd.Series(data)
+    sns.distplot(result, hist=True, kde=False,bins=int(180/5), color = 'blue',hist_kws={'edgecolor':'black'})
+    plt.title('Histogram of StoneEtaUGM Data')
+    plt.xlabel('Reaction Times')
+    plt.ylabel('Frequency')
+    plt.savefig("stoneEtaUGM.png")
     print (data)
     return data
 def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
@@ -187,12 +184,11 @@ def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    result=pd.Series(data) #what exactly is Series in Panda
-    result.plot.hist(grid=True, bins=1, rwidth=0.9,color='#607c8e')
-    plt.title('Stone Data')
-    plt.xlabel('Counts')
-    plt.ylabel('Reaction Times')
-    plt.grid(axis='y', alpha=0.75)
+    result=pd.Series(data)
+    sns.distplot(result, hist=True, kde=False,bins=int(180/5), color = 'blue',hist_kws={'edgecolor':'black'})
+    plt.title('Histogram of RatCliff Data')
+    plt.xlabel('Reaction Times')
+    plt.ylabel('Frequency')
     plt.savefig("ratcliff.png")
     print (data)
     return data
@@ -225,12 +221,11 @@ def ratcliffUGM (zmin,zmax,v,aU,aL,eta,timecons,usign,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    result=pd.Series(data) #what exactly is Series in Panda
-    result.plot.hist(grid=True, bins=1, rwidth=0.9,color='#607c8e')
-    plt.title('Stone Data')
-    plt.xlabel('Counts')
-    plt.ylabel('Reaction Times')
-    plt.grid(axis='y', alpha=0.75)
+    result=pd.Series(data)
+    sns.distplot(result, hist=True, kde=False,bins=int(180/5), color = 'blue',hist_kws={'edgecolor':'black'})
+    plt.title('Histogram of RatCliffUGM Data')
+    plt.xlabel('Reaction Times')
+    plt.ylabel('Frequency')
     plt.savefig("ratcliffUGM.png")
     print (data)
     return data
