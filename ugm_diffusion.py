@@ -10,8 +10,8 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
-    resp = []
-    rt = []
+    resp = np.empty(N)
+    rt = np.empty(N)
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         x=z
@@ -34,7 +34,7 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
-    data = []
+    data = np.empty(N)
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
@@ -44,8 +44,8 @@ def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
-    resp = []
-    rt = []
+    resp = np.empty(N)
+    rt = np.empty(N)
     nDotsVector=np.ones(Maxiter)
     # weight for expotentionally-weighted moving average
     # alpha = (h)/(h+timecons)
@@ -71,7 +71,7 @@ def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
-    data = []
+    data = np.empty(N)
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
@@ -81,8 +81,8 @@ def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
-    resp = []
-    rt = []
+    resp = np.empty(N)
+    rt = np.empty(N)
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
@@ -103,7 +103,7 @@ def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
-    data = []
+    data = np.empty(N)
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
@@ -113,8 +113,8 @@ def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
-    resp = []
-    rt = []
+    resp = np.empty(N)
+    rt = np.empty(N)
     nDotsVector=np.ones(Maxiter)
     #weight for exponentially-weighted moving average
     #alpha=(*h)/((*h)+(*imecons));
@@ -140,7 +140,7 @@ def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
-    data = []
+    data = np.empty(N)
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
@@ -150,8 +150,8 @@ def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
-    resp = []
-    rt = []
+    resp = np.empty(N)
+    rt = np.empty(N)
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
@@ -172,7 +172,7 @@ def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
-    data = []
+    data = np.empty(N)
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
@@ -182,8 +182,8 @@ def ratcliffUGM (zmin,zmax,v,aU,aL,eta,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
-    resp = []
-    rt = []
+    resp = np.empty(N)
+    rt = np.empty(N)
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
@@ -205,7 +205,7 @@ def ratcliffUGM (zmin,zmax,v,aU,aL,eta,timecons,usign,s,h,n,maxiter) :
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
-    data = []
+    data = np.empty(N)
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
