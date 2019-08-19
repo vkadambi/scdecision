@@ -7,6 +7,7 @@ import seaborn as sns
 # ====         ================                       ======================
 # 08/15/19        Vai                                 Original code
 # 08/15/19.       Vai                                 Main includes function call/plots
+# 08/18/19        Vai                                 Regular Histograms generated!
 
 np.random.seed(0)
 from ugm_diffusion import stone,stoneUGM,stoneEta,stoneEtaUGM,ratcliff,ratcliffUGM
@@ -15,8 +16,8 @@ from ugm_diffusion import stone,stoneUGM,stoneEta,stoneEtaUGM,ratcliff,ratcliffU
 resp, rt, data = stone(0.5,1,1,0,1,0.1,100,1000)
 #Stone plot
 plt.figure(1)
-sns.distplot(data, hist=True, kde=False,bins=int(180/5), color = 'blue',hist_kws={'edgecolor':'black'})
-plt.title('Histogram of Stone Data')
+sns.distplot(data, hist=True, kde=True,bins=int(180/5), color = 'darkblue',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
+plt.title('Density Plot & Histogram of Stone Data')
 plt.xlabel('Reaction Times')
 plt.ylabel('Frequency')
 plt.savefig("stone.png")
@@ -25,8 +26,8 @@ plt.savefig("stone.png")
 resp, rt, data = stoneUGM(0.5,1,1,0,1,1,1,0.1,100,1000)
 #StoneUGM plot
 plt.figure(2)
-sns.distplot(data, hist=True, kde=False,bins=int(180/5), color = 'blue',hist_kws={'edgecolor':'black'})
-plt.title('Histogram of StoneUGM Data')
+sns.distplot(data, hist=True, kde=True,bins=int(180/5), color = 'darkblue',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
+plt.title('Density Plot & Histogram of StoneUGM Data')
 plt.xlabel('Reaction Times')
 plt.ylabel('Frequency')
 plt.savefig("stoneUGM.png")
@@ -35,8 +36,8 @@ plt.savefig("stoneUGM.png")
 resp, rt, data = stoneEta(0.5,1,1,1,0,1,0.1,100,1000)
 #StoneEta plot
 plt.figure(3)
-sns.distplot(data, hist=True, kde=False,bins=int(180/5), color = 'blue',hist_kws={'edgecolor':'black'})
-plt.title('Histogram of StoneEta Data')
+sns.distplot(data, hist=True, kde=True,bins=int(180/5), color = 'darkblue',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
+plt.title('Density Plot & Histogram of StoneEta Data')
 plt.xlabel('Reaction Times')
 plt.ylabel('Frequency')
 plt.savefig("stoneEta.png")
@@ -45,8 +46,8 @@ plt.savefig("stoneEta.png")
 resp, rt, data = stoneEtaUGM(0.5,1,1,1,0,1,1,1,0.1,100,1000)
 #StoneEtaUGM plot
 plt.figure(4)
-sns.distplot(data, hist=True, kde=False,bins=int(180/5), color = 'blue',hist_kws={'edgecolor':'black'})
-plt.title('Histogram of StoneEtaUGM Data')
+sns.distplot(data, hist=True, kde=True,bins=int(180/5), color = 'darkblue',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
+plt.title('Density Plot & Histogram of StoneEtaUGM Data')
 plt.xlabel('Reaction Times')
 plt.ylabel('Frequency')
 plt.savefig("stoneEtaUGM.png")
@@ -56,8 +57,8 @@ resp, rt, data = ratcliff(0,1,1,1,0,1,1,0.1,100,1000)
 ratcliff(0,1,1,1,0,1,1,0.1,100,1000)
 #RatCliff plot
 plt.figure(5)
-sns.distplot(data, hist=True, kde=False,bins=int(180/5), color = 'blue',hist_kws={'edgecolor':'black'})
-plt.title('Histogram of RatCliff Data')
+sns.distplot(data, hist=True, kde=True,bins=int(180/5), color = 'darkblue',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
+plt.title('Density Plot & Histogram of RatCliff Data')
 plt.xlabel('Reaction Times')
 plt.ylabel('Frequency')
 plt.savefig("ratcliff.png")
@@ -66,8 +67,8 @@ plt.savefig("ratcliff.png")
 resp, rt, data = ratcliffUGM(0,1,1,1,0,1,1,1,1,0.1,100,1000)
 #RatCliffUGM plot
 plt.figure(6)
-sns.distplot(data, hist=True, kde=False,bins=int(180/5), color = 'blue',hist_kws={'edgecolor':'black'})
-plt.title('Histogram of RatCliffUGM Data')
+sns.distplot(data, hist=True, kde=True,bins=int(180/5), color = 'darkblue',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
+plt.title('Density Plot & Histogram of RatCliffUGM Data')
 plt.xlabel('Reaction Times')
 plt.ylabel('Frequency')
 plt.savefig("ratcliffUGM.png")
