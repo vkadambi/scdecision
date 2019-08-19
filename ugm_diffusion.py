@@ -16,21 +16,20 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
     for i in range(N):
         x=z
         iter=0
+        resp = np.array(resp)
+        rt = np.array(rt)
         while (iter<=Maxiter):
             nDots = nDotsVector[iter]
             iter=iter+1
             x=x+h*(v*nDots)+rhs*np.random.normal()
             if (x>=aU):
                 resp.append(float(1.0))
-                resp = np.array(resp)
                 break
             if (x<=aL):
                 resp.append(float(-1.0))
-                resp = np.array(resp)
                 break
             if (iter==Maxiter):
                 resp = np.array(resp)
-                resp.append(np.nan)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
@@ -45,7 +44,9 @@ def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
     resp = np.empty(N)
+    resp = np.array(resp)
     rt = np.empty(N)
+    rt = np.array(rt)
     nDotsVector=np.ones(Maxiter)
     # weight for expotentionally-weighted moving average
     # alpha = (h)/(h+timecons)
@@ -82,7 +83,9 @@ def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
     resp = np.empty(N)
+    resp = np.array(resp)
     rt = np.empty(N)
+    rt = np.array(rt)
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
@@ -114,7 +117,9 @@ def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
     resp = np.empty(N)
+    resp = np.array(resp)
     rt = np.empty(N)
+    rt = np.array(rt)
     nDotsVector=np.ones(Maxiter)
     #weight for exponentially-weighted moving average
     #alpha=(*h)/((*h)+(*imecons));
@@ -151,7 +156,9 @@ def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
     resp = np.empty(N)
+    resp = np.array(resp)
     rt = np.empty(N)
+    rt = np.array(rt)
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
@@ -183,7 +190,9 @@ def ratcliffUGM (zmin,zmax,v,aU,aL,eta,timecons,usign,s,h,n,maxiter) :
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
     resp = np.empty(N)
+    resp = np.array(resp)
     rt = np.empty(N)
+    rt = np.array(rt)
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
