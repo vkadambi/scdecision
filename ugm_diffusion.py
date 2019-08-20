@@ -27,7 +27,7 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
                 resp.append(float(-1.0))
                 break
             if (iter==Maxiter):
-                resp = np.array(resp)
+                resp.append(np.nan)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
