@@ -35,8 +35,7 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    print (data)
-    return resp, rt, data #Return all three to test
+    return data
 def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
@@ -72,8 +71,7 @@ def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    print (data)
-    return resp, rt, data #Return all three to test
+    return data
 def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
@@ -104,8 +102,7 @@ def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    print (data)
-    return resp, rt, data #Return all three to test
+    return data
 def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
@@ -141,8 +138,7 @@ def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    print (data)
-    return resp, rt, data #Return all three to test
+    return data
 def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
@@ -173,8 +169,7 @@ def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    print (data)
-    return resp, rt, data #Return all three to test
+    return data
 def ratcliffUGM (zmin,zmax,v,aU,aL,eta,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
@@ -206,5 +201,4 @@ def ratcliffUGM (zmin,zmax,v,aU,aL,eta,timecons,usign,s,h,n,maxiter) :
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    print (data)
-    return resp, rt, data #Return all three to test
+    return data
