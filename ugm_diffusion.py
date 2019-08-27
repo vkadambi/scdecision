@@ -5,8 +5,9 @@ import random
 # Date            Programmers                         Descriptions of Change
 # ====         ================                       ======================
 # 08/15/19        Vai                                 Original code
+# 08/27/19      Michael Nunez               Remove aL, change what z means, fix urgency gating
 
-def stone (z,v,aU,aL,s,h,n,maxiter) :
+def stone (z,v,aU,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
@@ -15,7 +16,7 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
     data = []
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
-        x=z
+        x=z*aU
         iter=0
         while (iter<=Maxiter):
             nDots = nDotsVector[iter]
@@ -24,7 +25,7 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
             if (x>=aU):
                 resp.append(float(1.0))
                 break
-            if (x<=aL):
+            if (x<=0):
                 resp.append(float(-1.0))
                 break
             if (iter==Maxiter):
@@ -36,7 +37,7 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
         temp=resp[i]*rt[i]
         data.append(temp)
     return data
-def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
+def stoneUGM (z,v,aU,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
@@ -48,7 +49,7 @@ def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
     # alpha = (h)/(h+timecons)
     alpha = timecons/(timecons+h)
     for i in range(N):
-        x=z
+        x=z*aU
         iter=0
         while (iter<=Maxiter):
             nDots = nDotsVector[iter]
@@ -57,10 +58,10 @@ def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
             x=(alpha*x)+(1-alpha)*(h*(v*nDots))+rhs*np.random.normal()
             # multiply linear urgency signal, urgency determines size of urgency signal
             xu =x*iter*(usign) #urgency is multiplicative
-            if (x>=aU):
+            if (xu>=aU):
                 resp.append(float(1.0)) #This switch is convention
                 break
-            if (x<=aL):
+            if (xu<=0):
                 resp.append(float(-1.0)) #This switch is convention
                 break
             if (iter==Maxiter): #New if statement
@@ -72,7 +73,7 @@ def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
         temp=resp[i]*rt[i]
         data.append(temp)
     return data
-def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
+def stoneEta (z,v,eta,aU,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
@@ -82,7 +83,7 @@ def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
-        x=z
+        x=z*aU
         iter=0
         while (iter<=Maxiter):
             nDots = nDotsVector[iter]
@@ -91,7 +92,7 @@ def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
             if (x>=aU):
                 resp.append(float(1.0)) #This switch is convention
                 break
-            if (x<=aL):
+            if (x<=0):
                 resp.append(float(-1.0)) #This switch is convention
                 break
             if (iter==Maxiter): #New if statement
@@ -103,7 +104,7 @@ def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
         temp=resp[i]*rt[i]
         data.append(temp)
     return data
-def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
+def stoneEtaUGM (z,v,eta,aU,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
@@ -116,17 +117,17 @@ def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
     alpha=(timecons)/(timecons+h)
     for i in range(N):
         samplev=v+eta*np.random.normal()
-        x=z
+        x=z*aU
         iter=0
         while (iter<=Maxiter):
             nDots = nDotsVector[iter]
             iter=iter+1
             x = alpha*x+(1-alpha)*(h*(samplev*nDots))+rhs*np.random.normal()
             xu=x*iter*usign
-            if (x>=aU):
+            if (xu>=aU):
                 resp.append(float(1.0))
                 break
-            if (x<=aL):
+            if (xu<=0):
                 resp.append(float(-1.0))
                 break
             if (iter==Maxiter):
@@ -138,7 +139,7 @@ def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
         temp=resp[i]*rt[i]
         data.append(temp)
     return data
-def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
+def ratcliff (zmin,zmax,v,aU,eta,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
@@ -148,7 +149,7 @@ def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
-        x=zmin+(zmax-zmin)*np.random.uniform()
+        x=(zmin+(zmax-zmin)*np.random.uniform())*aU
         iter=0
         while (iter<=Maxiter):
             nDots = nDotsVector[iter]
@@ -157,7 +158,7 @@ def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
             if (x>=aU):
                 resp.append(float(1.0)) #This switch is convention
                 break
-            if (x<=aL):
+            if (x<=0):
                 resp.append(float(-1.0)) #This switch is convention
                 break
             if (iter==Maxiter): #New if statement
@@ -169,7 +170,7 @@ def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
         temp=resp[i]*rt[i]
         data.append(temp)
     return data
-def ratcliffUGM (zmin,zmax,v,aU,aL,eta,timecons,usign,s,h,n,maxiter) :
+def ratcliffUGM (zmin,zmax,v,aU,eta,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
@@ -179,17 +180,17 @@ def ratcliffUGM (zmin,zmax,v,aU,aL,eta,timecons,usign,s,h,n,maxiter) :
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
-        x=zmin+(zmax-zmin)*np.random.uniform()
+        x=(zmin+(zmax-zmin)*np.random.uniform())*aU
         iter=0
         while (iter<=Maxiter):
             nDots = nDotsVector[iter]
             iter=iter+1
             x = x+h*(samplev*nDots)+rhs*np.random.normal()
             xu=x*iter*usign
-            if (x>=aU):
+            if (xu>=aU):
                 resp.append(float(1.0)) #This switch is convention
                 break
-            if (x<=aL):
+            if (xu<=0):
                 resp.append(float(-1.0)) #This switch is convention
                 break
             if (iter==Maxiter): #New if statement
