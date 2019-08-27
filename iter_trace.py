@@ -10,9 +10,9 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
-    resp = []
+    resp= []
     rt = []
-    data = []
+    ev_trace = []
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         x=z
@@ -23,26 +23,30 @@ def stone (z,v,aU,aL,s,h,n,maxiter) :
             x=x+h*(v*nDots)+rhs*np.random.normal()
             if (x>=aU):
                 resp.append(float(1.0))
+                ev_trace.append(x)
                 break
             if (x<=aL):
                 resp.append(float(-1.0))
+                ev_trace.append(x)
                 break
             if (iter==Maxiter):
                 resp.append(np.nan)
+                ev_trace.append(x)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
+    data = []
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    return data
+    return ev_trace
 def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
-    resp = []
+    resp= []
     rt = []
-    data = []
+    ev_trace = []
     nDotsVector=np.ones(Maxiter)
     # weight for expotentionally-weighted moving average
     # alpha = (h)/(h+timecons)
@@ -58,27 +62,31 @@ def stoneUGM (z,v,aU,aL,timecons,usign,s,h,n,maxiter) :
             # multiply linear urgency signal, urgency determines size of urgency signal
             xu =x*iter*(usign) #urgency is multiplicative
             if (x>=aU):
-                resp.append(float(1.0)) #This switch is convention
+                resp.append(float(1.0))
+                ev_trace.append(x)
                 break
             if (x<=aL):
-                resp.append(float(-1.0)) #This switch is convention
+                resp.append(float(-1.0))
+                ev_trace.append(x)
                 break
-            if (iter==Maxiter): #New if statement
+            if (iter==Maxiter):
                 resp.append(np.nan)
+                ev_trace.append(x)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
+    data = []
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    return data
+    return ev_trace
 def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
-    resp = []
+    resp= []
     rt = []
-    data = []
+    ev_trace = []
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
@@ -89,27 +97,31 @@ def stoneEta (z,v,eta,aU,aL,s,h,n,maxiter) :
             iter=iter+1
             x=x+h*(samplev*nDots)+rhs*np.random.normal()
             if (x>=aU):
-                resp.append(float(1.0)) #This switch is convention
+                resp.append(float(1.0))
+                ev_trace.append(x)
                 break
             if (x<=aL):
-                resp.append(float(-1.0)) #This switch is convention
+                resp.append(float(-1.0))
+                ev_trace.append(x)
                 break
-            if (iter==Maxiter): #New if statement
+            if (iter==Maxiter):
                 resp.append(np.nan)
+                ev_trace.append(x)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
+    data = []
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    return data
+    return ev_trace
 def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
-    resp = []
+    resp= []
     rt = []
-    data = []
+    ev_trace = []
     nDotsVector=np.ones(Maxiter)
     #weight for exponentially-weighted moving average
     #alpha=(*h)/((*h)+(*imecons));
@@ -125,26 +137,30 @@ def stoneEtaUGM (z,v,eta,aU,aL,timecons,usign,s,h,n,maxiter) :
             xu=x*iter*usign
             if (x>=aU):
                 resp.append(float(1.0))
+                ev_trace.append(x)
                 break
             if (x<=aL):
                 resp.append(float(-1.0))
+                ev_trace.append(x)
                 break
             if (iter==Maxiter):
                 resp.append(np.nan)
+                ev_trace.append(x)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
+    data = []
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    return data
+    return ev_trace
 def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
-    resp = []
+    resp= []
     rt = []
-    data = []
+    ev_trace = []
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
@@ -155,27 +171,31 @@ def ratcliff (zmin,zmax,v,aU,aL,eta,s,h,n,maxiter) :
             iter=iter+1
             x = x+h*(samplev*nDots)+rhs*np.random.normal()
             if (x>=aU):
-                resp.append(float(1.0)) #This switch is convention
+                resp.append(float(1.0))
+                ev_trace.append(x)
                 break
             if (x<=aL):
-                resp.append(float(-1.0)) #This switch is convention
+                resp.append(float(-1.0))
+                ev_trace.append(x)
                 break
-            if (iter==Maxiter): #New if statement
+            if (iter==Maxiter):
                 resp.append(np.nan)
+                ev_trace.append(x)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
+    data = []
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    return data
+    return ev_trace
 def ratcliffUGM (zmin,zmax,v,aU,aL,eta,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
-    resp = []
+    resp= []
     rt = []
-    data = []
+    ev_trace = []
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
@@ -187,17 +207,21 @@ def ratcliffUGM (zmin,zmax,v,aU,aL,eta,timecons,usign,s,h,n,maxiter) :
             x = x+h*(samplev*nDots)+rhs*np.random.normal()
             xu=x*iter*usign
             if (x>=aU):
-                resp.append(float(1.0)) #This switch is convention
+                resp.append(float(1.0))
+                ev_trace.append(x)
                 break
             if (x<=aL):
-                resp.append(float(-1.0)) #This switch is convention
+                resp.append(float(-1.0))
+                ev_trace.append(x)
                 break
-            if (iter==Maxiter): #New if statement
+            if (iter==Maxiter):
                 resp.append(np.nan)
+                ev_trace.append(x)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
+    data = []
     for i in range(N):
         temp=resp[i]*rt[i]
         data.append(temp)
-    return data
+    return ev_trace
