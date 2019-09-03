@@ -14,7 +14,8 @@ np.random.seed(0)
 from ugm_diffusion import stone,stoneUGM,stoneEta,stoneEtaUGM,ratcliff,ratcliffUGM
 
 #Stone function call
-data_stone = stone(0.5,1,1,0,1,0.001,100,1000)
+data_stone = stone(0.5,1,1,1,0.001,100,1000)
+print(data_stone)
 data_stone = np.array(data_stone)
 #Stone plot
 plt.figure(1)
@@ -25,7 +26,7 @@ plt.ylabel('Frequency')
 plt.savefig("stone.png")
 
 #StoneUGM function call
-data_stoneUGM = stoneUGM(0.5,1,1,0,1,1,1,0.001,100,1000)
+data_stoneUGM = stoneUGM(0.5,1,1,1,1,1,0.001,100,1000)
 data_stoneUGM = np.array(data_stoneUGM)
 #StoneUGM plot
 plt.figure(2)
@@ -36,7 +37,7 @@ plt.ylabel('Frequency')
 plt.savefig("stoneUGM.png")
 
 #StoneEta function call
-data_stoneEta = stoneEta(0.5,1,1,1,0,1,0.001,100,1000)
+data_stoneEta = stoneEta(0.5,1,1,1,1,0.001,100,1000)
 data_stoneEta = np.array(data_stoneEta)
 #StoneEta plot
 plt.figure(3)
@@ -47,7 +48,7 @@ plt.ylabel('Frequency')
 plt.savefig("stoneEta.png")
 
 #StoneEtaUGM function call
-data_EtaUGM = stoneEtaUGM(0.5,1,1,1,0,1,1,1,0.001,100,1000)
+data_EtaUGM = stoneEtaUGM(0.5,1,1,1,1,1,1,0.001,100,1000)
 data_EtaUGM = np.array(data_EtaUGM)
 #StoneEtaUGM plot
 plt.figure(4)
@@ -58,7 +59,7 @@ plt.ylabel('Frequency')
 plt.savefig("stoneEtaUGM.png")
 
 #RatCliff function call
-data_ratcliff = ratcliff(0,1,1,1,0,1,1,0.001,100,1000)
+data_ratcliff = ratcliff(0,1,1,1,1,1,0.001,100,1000)
 data_ratcliff = np.array(data_ratcliff)
 #RatCliff plot
 plt.figure(5)
@@ -69,7 +70,7 @@ plt.ylabel('Frequency')
 plt.savefig("ratcliff.png")
 
 #RatCliffUGM function call
-data_ratcliffUGM = ratcliffUGM(0,1,1,1,0,1,1,1,1,0.001,100,1000)
+data_ratcliffUGM = ratcliffUGM(0,1,1,1,1,1,1,1,0.001,100,1000)
 data_ratcliffUGM = np.array(data_ratcliffUGM)
 #RatCliffUGM plot
 plt.figure(6)

@@ -7,7 +7,7 @@ import random
 # 08/15/19        Vai                                 Original code
 # 08/27/19      Michael Nunez               Remove aL, change what z means, fix urgency gating
 
-def stone (z,v,aU,s,h,n,maxiter) :
+def stone (beta,v,aU,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
@@ -16,7 +16,7 @@ def stone (z,v,aU,s,h,n,maxiter) :
     data = []
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
-        x=z*aU
+        x=beta*aU
         iter=0
         while (iter<=Maxiter):
             nDots = nDotsVector[iter]
@@ -37,7 +37,7 @@ def stone (z,v,aU,s,h,n,maxiter) :
         temp=resp[i]*rt[i]
         data.append(temp)
     return data
-def stoneUGM (z,v,aU,timecons,usign,s,h,n,maxiter) :
+def stoneUGM (beta,v,aU,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
@@ -49,7 +49,7 @@ def stoneUGM (z,v,aU,timecons,usign,s,h,n,maxiter) :
     # alpha = (h)/(h+timecons)
     alpha = timecons/(timecons+h)
     for i in range(N):
-        x=z*aU
+        x=beta*aU
         iter=0
         while (iter<=Maxiter):
             nDots = nDotsVector[iter]
@@ -73,7 +73,7 @@ def stoneUGM (z,v,aU,timecons,usign,s,h,n,maxiter) :
         temp=resp[i]*rt[i]
         data.append(temp)
     return data
-def stoneEta (z,v,eta,aU,s,h,n,maxiter) :
+def stoneEta (beta,v,eta,aU,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
@@ -83,7 +83,7 @@ def stoneEta (z,v,eta,aU,s,h,n,maxiter) :
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
         samplev=v+eta*np.random.normal()
-        x=z*aU
+        x=beta*aU
         iter=0
         while (iter<=Maxiter):
             nDots = nDotsVector[iter]
@@ -104,7 +104,7 @@ def stoneEta (z,v,eta,aU,s,h,n,maxiter) :
         temp=resp[i]*rt[i]
         data.append(temp)
     return data
-def stoneEtaUGM (z,v,eta,aU,timecons,usign,s,h,n,maxiter) :
+def stoneEtaUGM (beta,v,eta,aU,timecons,usign,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
@@ -117,7 +117,7 @@ def stoneEtaUGM (z,v,eta,aU,timecons,usign,s,h,n,maxiter) :
     alpha=(timecons)/(timecons+h)
     for i in range(N):
         samplev=v+eta*np.random.normal()
-        x=z*aU
+        x=beta*aU
         iter=0
         while (iter<=Maxiter):
             nDots = nDotsVector[iter]
