@@ -59,12 +59,12 @@ def stoneUGM (z,v,aU,timecons,usign,s,h,n,maxiter) :
             # multiply linear urgency signal, urgency determines size of urgency signal
             xu =x*iter*(usign) #urgency is multiplicative
             if (xu>=aU):
-                resp.append(float(1.0)) #This switch is convention
+                resp.append(float(1.0))
                 break
             if (xu<=0):
-                resp.append(float(-1.0)) #This switch is convention
+                resp.append(float(-1.0))
                 break
-            if (iter==Maxiter): #New if statement
+            if (iter==Maxiter):
                 resp.append(np.nan)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
@@ -90,12 +90,12 @@ def stoneEta (z,v,eta,aU,s,h,n,maxiter) :
             iter=iter+1
             x=x+h*(samplev*nDots)+rhs*np.random.normal()
             if (x>=aU):
-                resp.append(float(1.0)) #This switch is convention
+                resp.append(float(1.0))
                 break
             if (x<=0):
-                resp.append(float(-1.0)) #This switch is convention
+                resp.append(float(-1.0))
                 break
-            if (iter==Maxiter): #New if statement
+            if (iter==Maxiter):
                 resp.append(np.nan)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
@@ -156,12 +156,12 @@ def ratcliff (zmin,zmax,v,aU,eta,s,h,n,maxiter) :
             iter=iter+1
             x = x+h*(samplev*nDots)+rhs*np.random.normal()
             if (x>=aU):
-                resp.append(float(1.0)) #This switch is convention
+                resp.append(float(1.0))
                 break
             if (x<=0):
-                resp.append(float(-1.0)) #This switch is convention
+                resp.append(float(-1.0))
                 break
-            if (iter==Maxiter): #New if statement
+            if (iter==Maxiter): 
                 resp.append(np.nan)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
@@ -188,12 +188,12 @@ def ratcliffUGM (zmin,zmax,v,aU,eta,timecons,usign,s,h,n,maxiter) :
             x = x+h*(samplev*nDots)+rhs*np.random.normal()
             xu=x*iter*usign
             if (xu>=aU):
-                resp.append(float(1.0)) #This switch is convention
+                resp.append(float(1.0)) 
                 break
             if (xu<=0):
-                resp.append(float(-1.0)) #This switch is convention
+                resp.append(float(-1.0))
                 break
-            if (iter==Maxiter): #New if statement
+            if (iter==Maxiter):
                 resp.append(np.nan)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
