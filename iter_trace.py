@@ -25,7 +25,7 @@ def stone (z,v,aU,s,h,n,maxiter) :
                 resp.append(float(1.0))
                 ev_trace.append(x)
                 break
-            if (x<=aL):
+            if (x<=0):
                 resp.append(float(-1.0))
                 ev_trace.append(x)
                 break
@@ -61,17 +61,17 @@ def stoneUGM (z,v,aU,timecons,usign,s,h,n,maxiter) :
             x=(alpha*x)+(1-alpha)*(h*(v*nDots))+rhs*np.random.normal()
             # multiply linear urgency signal, urgency determines size of urgency signal
             xu =x*iter*(usign) #urgency is multiplicative
-            if (x>=aU):
+            if (xu>=aU):
                 resp.append(float(1.0))
-                ev_trace.append(x)
+                ev_trace.append(xu)
                 break
-            if (x<=aL):
+            if (xu<=0):
                 resp.append(float(-1.0))
-                ev_trace.append(x)
+                ev_trace.append(xu)
                 break
             if (iter==Maxiter):
                 resp.append(np.nan)
-                ev_trace.append(x)
+                ev_trace.append(xu)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
@@ -100,7 +100,7 @@ def stoneEta (z,v,eta,aU,s,h,n,maxiter) :
                 resp.append(float(1.0))
                 ev_trace.append(x)
                 break
-            if (x<=aL):
+            if (x<=0):
                 resp.append(float(-1.0))
                 ev_trace.append(x)
                 break
@@ -135,17 +135,17 @@ def stoneEtaUGM (z,v,eta,aU,timecons,usign,s,h,n,maxiter) :
             iter=iter+1
             x = alpha*x+(1-alpha)*(h*(samplev*nDots))+rhs*np.random.normal()
             xu=x*iter*usign
-            if (x>=aU):
+            if (xu>=aU):
                 resp.append(float(1.0))
-                ev_trace.append(x)
+                ev_trace.append(xu)
                 break
-            if (x<=aL):
+            if (xu<=0):
                 resp.append(float(-1.0))
-                ev_trace.append(x)
+                ev_trace.append(xu)
                 break
             if (iter==Maxiter):
                 resp.append(np.nan)
-                ev_trace.append(x)
+                ev_trace.append(xu)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
@@ -174,7 +174,7 @@ def ratcliff (zmin,zmax,v,aU,eta,s,h,n,maxiter) :
                 resp.append(float(1.0))
                 ev_trace.append(x)
                 break
-            if (x<=aL):
+            if (x<=0):
                 resp.append(float(-1.0))
                 ev_trace.append(x)
                 break
@@ -206,17 +206,17 @@ def ratcliffUGM (zmin,zmax,v,aU,eta,timecons,usign,s,h,n,maxiter) :
             iter=iter+1
             x = x+h*(samplev*nDots)+rhs*np.random.normal()
             xu=x*iter*usign
-            if (x>=aU):
+            if (xu>=aU):
                 resp.append(float(1.0))
-                ev_trace.append(x)
+                ev_trace.append(xu)
                 break
-            if (x<=aL):
+            if (xu<=0):
                 resp.append(float(-1.0))
-                ev_trace.append(x)
+                ev_trace.append(xu)
                 break
             if (iter==Maxiter):
                 resp.append(np.nan)
-                ev_trace.append(x)
+                ev_trace.append(xu)
                 break
         number=((float(iter))*h)-(h/(float(2.0)))
         rt.append(number)
