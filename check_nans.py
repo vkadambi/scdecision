@@ -1,8 +1,6 @@
 #!/usr/bin/python
 import numpy as np
-#Questions
-# how many decimals should we round to
-np.random.seed(0)
+
 from ugm_diffusion import stone,stoneUGM,stoneEta,stoneEtaUGM,ratcliff,ratcliffUGM
 
 def random_parameter() :
@@ -22,18 +20,27 @@ def random_parameter() :
         v = round(np.random.uniform(-0.9,0.9),2)
     elif (s == 1.0):
         v = round(np.random.uniform(-9,9),2)
-    usign = 1
-    eta = 1
-    return beta,aU,s,v,usign,eta
+    #trial variability of the drift rate
+    eta = round(np.random.uniform(0,2),2)
+    #urgency signal
+    usign = round(np.random.uniform(1,2),0)
+    #time resolution
+    h = 0.001
+    #number of trials
+    n = 100
+    #number of steps
+    maxiter = 1000
+    #descirbes the leak
+    timecons = 1000
+    # bias min and max
+    zmin = 0
+    zmax = 1
+
+    #return the random parameter
+    return beta,zmin,zmax,v,eta,aU,timecons,usign,s,h,n,maxiter
 
 #generate all the random variables
-beta,aU,s,v,usign,eta = random_parameter()
-h = 0.001 #time resolution
-n = 100 #number of trials
-maxiter = 1000 #number of steps
-timecons = 1000
-zmin = 0
-zmax = 1
+beta,zmin,zmax,v,eta,aU,timecons,usign,s,h,n,maxiter = random_parameter()
 
 #checking all the functions
 data_stone = stone(beta,v,aU,s,h,n,maxiter)
