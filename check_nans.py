@@ -42,7 +42,7 @@ def random_parameter() :
     #return the random parameter
     return beta,zmin,zmax,v,eta,aU,timecons,usign,s,h,n,maxiter
 
-for i in range (1) :
+for i in range(100) :
     #generate all the random variables
     beta,zmin,zmax,v,eta,aU,timecons,usign,s,h,n,maxiter = random_parameter()
     #checking all the functions
