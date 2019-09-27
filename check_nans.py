@@ -4,26 +4,29 @@ import numpy as np
 from ugm_diffusion import stone,stoneUGM,stoneEta,stoneEtaUGM,ratcliff,ratcliffUGM
 
 def random_parameter() :
-    #upper boundary
-    aU = np.random.uniform(0.7,1.5)
     #bias
     z = np.random.uniform(0,aU)
-    beta = z/aU
+    beta = round((z/aU),2)
     #diffusion coefficient
-    tester_s = np.random.uniform(0,1)
+    tester_s = round(np.random.uniform(0,1),0)
     if (tester_s == 0.0):
         s = 0.1
     elif (tester_s == 1.0):
         s = 1.0
     #drift rate
     if (s == 0.1):
-        v = np.random.uniform(-0.9,0.9)
+        v = round(np.random.uniform(-0.9,0.9),2)
     elif (s == 1.0):
-        v = np.random.uniform(-9,9)
+        v = round(np.random.uniform(-9,9),2)
+    #upper boundary
+    if (s == 0.1):
+        aU = np.random.uniform(0.07,0.15)
+    elif (s == 1.0):
+        aU = np.random.uniform(0.7,1.5)
     #trial variability of the drift rate
-    eta = np.random.uniform(0,2)
+    eta = round(np.random.uniform(0,2),2)
     #urgency signal
-    usign = np.random.uniform(1,2)
+    usign = round(np.random.uniform(1,2),0)
     #time resolution
     h = 0.001
     #number of trials
