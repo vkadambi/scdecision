@@ -1,0 +1,56 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import random
+np.random.seed(0)
+from compare_function import stone, simuldiffn200
+
+#defining parameters
+#diffusion coefficient
+tester_s = round(np.random.uniform(0,1),0)
+if (tester_s == 0.0):
+    s = 0.1
+elif (tester_s == 1.0):
+    s = 1.0
+#drift rate
+if (s == 0.1):
+    v = np.random.uniform(-0.9,0.9)
+elif (s == 1.0):
+    v = np.random.uniform(-9,9)
+#upper boundary
+if (s == 0.1):
+    aU = np.random.uniform(0.07,0.15)
+elif (s == 1.0):
+    aU = np.random.uniform(0.7,1.5)
+#bias
+z = np.random.uniform(0,aU)
+beta = z/aU
+#trial variability of the drift rate
+Eta = 0 #np.random.uniform(0,2)
+#urgency signal
+usign = np.random.uniform(1,2)
+#time resolution
+h = 0.001
+#number of trials
+n = 100
+#number of steps
+maxiter = 1000
+#range of Zeta
+rangeZeta = np.random.uniform(0.45,0.55)
+
+
+#Stone function call
+data_stone = stone(beta,v,aU,s,h,n,maxiter)
+data_stone = np.array(data_stone)
+
+# simuldiffn200 function call
+data_mic = simuldiffn200(beta,n,1.1,0,0,v,None,0,0,rangeZeta,Eta,s)
+data_mic = np.array(data_mic)
+
+#Stone plot
+sns.distplot(data_stone[~np.isnan(data_stone)], hist=True, kde=True,bins=int(180/5), color = 'darkblue',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
+sns.distplot(data_mic[~np.isnan(data_mic)], hist=True, kde=True,bins=int(180/5), color = 'purple',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
+plt.title('Comparsion of the Two Codes')
+plt.xlabel('Reaction Times')
+plt.ylabel('Frequency')
+plt.savefig("stone_compare.png")

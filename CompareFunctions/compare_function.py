@@ -1,16 +1,50 @@
-
 from __future__ import division
+import numpy as np
+import math
+import random
 import numpy as np
 import scipy.io as sio
 from scipy.stats import truncnorm
 import warnings
-import random
-np.random.seed(0)
+
+#Vyshu's Function
+def stone (beta,v,aU,s,h,n,maxiter) :
+    N = int(n)
+    Maxiter = int(maxiter)
+    rhs = (math.sqrt(h))*s
+    resp = []
+    rt = []
+    data = []
+    nDotsVector=np.ones(Maxiter)
+    for i in range(N):
+        x=beta*aU
+        iter=0
+        while (iter<=Maxiter):
+            nDots = nDotsVector[iter]
+            iter=iter+1
+            x=x+h*(v*nDots)+rhs*np.random.normal()
+            if (x>=aU):
+                resp.append(float(1.0))
+                break
+            if (x<=0):
+                resp.append(float(-1.0))
+                break
+            if (iter==Maxiter):
+                resp.append(np.nan)
+                break
+        number=((float(iter))*h)-(h/(float(2.0)))
+        rt.append(number)
+    for i in range(N):
+        temp=resp[i]*rt[i]
+        data.append(temp)
+    return data
+
+#Michael's Function
 # Simulate diffusion models
-def simuldiffn200(N=100,Alpha=1,Vet=.2,Rmr=.2,Nu=1,Zeta=None,rangeVet=0,rangeRmr=0,rangeZeta=0,Eta=.3,Varsigma=1):
+def simuldiffn200(beta,N,Alpha,Vet,Rmr,Nu,Zeta,rangeVet,rangeRmr,rangeZeta,Eta,Varsigma):
 
     if Zeta is None:
-        Zeta = .5*Alpha
+        Zeta = beta*Alpha
 
     if (Nu < -5) or (Nu > 5):
         Nu = np.sign(Nu)*5
