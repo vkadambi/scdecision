@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import random
 np.random.seed(0)
-from compare_function import stone, simuldiffn200
+from compare_function_stone import stone, simuldiffn200
+from compare_function_Eta import stoneEta, simuldiffn200
 
 #defining parameters
 #diffusion coefficient
@@ -43,14 +44,32 @@ rangeZeta = np.random.uniform(0.45,0.55)
 data_stone = stone(beta,v,aU,s,h,n,maxiter)
 data_stone = np.array(data_stone)
 
-# simuldiffn200 function call
-data_mic = simuldiffn200(beta,n,1.1,0,0,v,None,0,0,rangeZeta,Eta,s)
-data_mic = np.array(data_mic)
+# StoneEta function call
+data_stone_eta = stoneEta(beta,v,Eta,aU,s,h,n,maxiter)
+data_stone_eta = np.array(data_stone_eta)
+
+# simuldiffn200 function call (stone)
+data_mic_stone = simuldiffn200(beta,n,1.1,0,0,v,None,0,0,rangeZeta,0,s)
+data_mic_stone = np.array(data_mic_stone)
+
+# simuldiffn200 function call (stoneEta)
+data_mic_Eta = simuldiffn200(beta,n,1.1,0,0,v,None,0,0,rangeZeta,Eta,s)
+data_mic_Eta = np.array(data_mic_Eta)
 
 #Stone plot
+plt.figure(1)
 sns.distplot(data_stone[~np.isnan(data_stone)], hist=True, kde=True,bins=int(180/5), color = 'darkblue',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
-sns.distplot(data_mic[~np.isnan(data_mic)], hist=True, kde=True,bins=int(180/5), color = 'purple',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
-plt.title('Comparsion of the Two Codes')
+sns.distplot(data_mic_stone[~np.isnan(data_mic_stone)], hist=True, kde=True,bins=int(180/5), color = 'purple',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
+plt.title('Comparsion of the Stone Programs')
 plt.xlabel('Reaction Times')
 plt.ylabel('Frequency')
 plt.savefig("stone_compare.png")
+
+#StoneEta plot
+plt.figure(2)
+sns.distplot(data_stone_eta[~np.isnan(data_stone_eta)], hist=True, kde=True,bins=int(180/5), color = 'darkblue',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
+sns.distplot(data_mic_Eta[~np.isnan(data_mic_Eta)], hist=True, kde=True,bins=int(180/5), color = 'purple',hist_kws={'edgecolor':'black'},kde_kws={'linewidth':4})
+plt.title('Comparsion of the StoneEta Programs')
+plt.xlabel('Reaction Times')
+plt.ylabel('Frequency')
+plt.savefig("stoneEta_compare.png")
