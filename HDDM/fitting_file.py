@@ -76,6 +76,7 @@ plt.savefig("stone.png")
 # load the data from the data.csv file into a variable data_stone
 #data_stone = hddm.load_csv('data.csv')
 
+# flips the signs back
 #data_stone = hddm.utils.flip_errors(data_stone)
 
 # Instantiate model object passing it data_stone
@@ -89,11 +90,11 @@ plt.savefig("stone.png")
 #m.sample(2000, burn=20)
 
 # Now we have an estimated model. We are going to print a summary stats table for each parameters' posterior.
-
 #stats = m.gen_stats()
 #stats[stats.index.isin(['a', 'a_std', 'a_subj.0', 'a_subj.1'])]
 
-#plt.figure(3)
+# this is used to look at is the trace, the autocorrelation, and the marginal posterior
+#plt.figure(2)
 #m.plot_posterior_predictive(figsize=(14, 10))
-#plt.savefig("predictive.png")
+#plt.savefig("posteriors.png")
 
