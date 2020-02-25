@@ -6,6 +6,7 @@ import math
 import random
 import seaborn as sns
 import csv
+import hddm
 
 #first define the stone function
 def stone (beta,v,aU,s,h,n,maxiter) :
@@ -59,11 +60,13 @@ for i in range(len(data)):
     data[i] = abs(data[i])
 
 #put the array into a csv file
-data_csv = csv.writer(open ('data.csv', 'w'), delimiter=',', lineterminator='\n')
-data_csv.writerow(['rt','response'])
+f = open('data.csv', 'wb')
+out = csv.writer(f, delimiter=',')
+out.writerow(["rt","response"])
 for i in range(len(data)):
     list = [data[i],response[i]]
-    data_csv.writerows([list])
+    out.writerows([list])
+f.close()
 
 #plot for fun
 plt.figure(1)
@@ -74,27 +77,35 @@ plt.ylabel('Frequency')
 plt.savefig("stone.png")
 
 # load the data from the data.csv file into a variable data_stone
-#data_stone = hddm.load_csv('data.csv')
+data_stone = hddm.load_csv('data.csv')
 
 # flips the signs back
-#data_stone = hddm.utils.flip_errors(data_stone)
+data_stone = hddm.utils.flip_errors(data_stone)
 
 # Instantiate model object passing it data_stone
 # This will tailor an individual hierarchical DDM around the dataset.
-#m = hddm.HDDM(data_stone)
+m = hddm.HDDM(data_stone)
 
 # find a good starting point which helps with convergence
-#starting_values = m.find_starting_values()
+starting_values = m.find_starting_values()
 
 # start drawing 7000 samples and discarding 5000 as burn-in
-#m.sample(2000, burn=20)
+m.sample(2000, burn=20)
 
 # Now we have an estimated model. We are going to print a summary stats table for each parameters' posterior.
-#stats = m.gen_stats()
-#stats[stats.index.isin(['a', 'a_std', 'a_subj.0', 'a_subj.1'])]
+stats = m.gen_stats()
+stats[stats.index.isin(['a', 'a_std', 'a_subj.0', 'a_subj.1'])]
 
 # this is used to look at is the trace, the autocorrelation, and the marginal posterior
-#plt.figure(2)
-#m.plot_posterior_predictive(figsize=(14, 10))
-#plt.savefig("posteriors.png")
+plt.figure(2)
+m.plot_posteriors(['a', 't', 'v', 'a_std'])
+plt.savefig("posteriors.png")
+
+# now we want to get the ~2000 samples from the 1 chain for a,t,v (make it a pandas dataframe)
+df_posteriors = pd.DataFrame(m.get_traces())
+
+# put df_posteriors into a csv file
+a = open('posteriors.csv', 'wb')
+out = csv.writer(a, delimiter=',')
+df_posteriors.to_csv('posteriors.csv', header=True, index=True)
 
