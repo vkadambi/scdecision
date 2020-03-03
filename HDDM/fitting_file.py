@@ -65,13 +65,12 @@ for i in range(30):
     beta,v,aU,s,h,n,maxiter = random_parameter()
     data = np.array(stone(beta,v,aU,s,h,n,maxiter))
     data = data[~np.isnan(data)]
-    rt.append(data)
+    rt = np.concatenate((rt,data),axis=None)
     #now add a subject number column
     for j in range(len(data)):
         subj_idx.append(i)
-print(rt)
 #take out all the Nans
-#rt = rt[~np.isnan(rt)]
+rt = rt[~np.isnan(rt)]
 # create an array for the response (1 for positive and 0 for negative)
 response = []
 for i in rt:
@@ -84,14 +83,12 @@ response = np.array(response)
 for i in range(len(rt)):
     rt[i] = abs(rt[i])
 
-print(subj_idx)
-
 #put the array into a csv file
 f = open('data.csv', 'wb')
 out = csv.writer(f, delimiter=',')
-out.writerow(["rt","response"])
-for i in range(len(data)):
-    list = [data[i],response[i]]
+out.writerow(["subj_idx","rt","response"])
+for i in range(len(rt)):
+    list = [subj_idx[i],rt[i],response[i]]
     out.writerows([list])
 f.close()
 
