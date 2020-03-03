@@ -39,25 +39,52 @@ def stone (beta,v,aU,s,h,n,maxiter) :
         temp=resp[i]*rt[i]
         data.append(temp)
     return data
-    
+
+def random_parameter() :
+    #diffusion coefficient
+    s = 1.0
+    #drift rate
+    v = np.random.uniform(-9,9)
+    #upper boundary
+    aU = np.random.uniform(0.4,2.0)
+    #bias
+    beta = 0.5
+    #time resolution
+    h = 0.001
+    #number of trials
+    n = 100
+    #number of steps
+    maxiter = 1000
+    #return random parameters
+    return beta,v,aU,s,h,n,maxiter
+
 # generate the data we want using a set of defined parameters, take out the Nans
-
-np.random.seed(0)
-data = np.array(stone(0.5,1,1,1,0.001,100,1000))
-data = data[~np.isnan(data)]
-
+rt = []
+subj_idx = []
+for i in range(30):
+    beta,v,aU,s,h,n,maxiter = random_parameter()
+    data = np.array(stone(beta,v,aU,s,h,n,maxiter))
+    data = data[~np.isnan(data)]
+    rt.append(data)
+    #now add a subject number column
+    for j in range(len(data)):
+        subj_idx.append(i)
+print(rt)
+#take out all the Nans
+#rt = rt[~np.isnan(rt)]
 # create an array for the response (1 for positive and 0 for negative)
 response = []
-for i in data:
+for i in rt:
     if (i > 0 ):
         response.append(1)
     elif (i < 0):
         response.append(0)
 response = np.array(response)
-
 # since we have the response data, we use the absolute value for the rts
-for i in range(len(data)):
-    data[i] = abs(data[i])
+for i in range(len(rt)):
+    rt[i] = abs(rt[i])
+
+print(subj_idx)
 
 #put the array into a csv file
 f = open('data.csv', 'wb')
