@@ -8,7 +8,7 @@ import seaborn as sns
 import csv
 import hddm
 import scipy.io as sio
-from scipy import stats
+from scipy.stats import scoreatpercentile
 from IPython import get_ipython  # Run magic functions from script
 get_ipython().magic('pylab')  # Initialize ipython matplotlib plotting graphics
 
@@ -124,7 +124,7 @@ m = hddm.HDDM(data_stone)
 starting_values = m.find_starting_values()
 
 # start drawing 7000 samples and discarding 5000 as burn-in
-m.sample(2000, burn=20)
+m.sample(7000, burn=5000)
 
 # Now we have an estimated model. We are going to print a summary stats table for each parameters' posterior.
 stats = m.gen_stats()
@@ -168,20 +168,18 @@ def recovery(possamps, truevals):  # Parameter recovery plots
     alldata = np.reshape(possamps, (nvars, nchains, nsamps))
     alldata = np.reshape(alldata, (nvars, nchains * nsamps))
     truevals = np.reshape(truevals, (nvars))
-
     # Plot properties
     LineWidths = np.array([2, 5])
     teal = np.array([0, .7, .7])
     blue = np.array([0, 0, 1])
     orange = np.array([1, .3, 0])
     Colors = [teal, blue]
-
+    plt.figure(3)
     for v in range(0, nvars):
         # Compute percentiles
-        bounds = stats.scoreatpercentile(alldata[v, :], (.5, 2.5, 97.5, 99.5))
+        bounds = scoreatpercentile(alldata[v, :], (.5, 2.5, 97.5, 99.5))
         for b in range(0, 2):
             # Plot credible intervals
-            plt.figure(b)
             credint = np.ones(100) * truevals[v]
             y = np.linspace(bounds[b], bounds[-1 - b], 100)
             lines = plt.plot(credint, y)
@@ -197,7 +195,7 @@ def recovery(possamps, truevals):  # Parameter recovery plots
     tempx = np.linspace(np.min(truevals), np.max(truevals), num=100)
     recoverline = plt.plot(tempx, tempx)
     plt.setp(recoverline, linewidth=3, color=orange)
- 
+    plt.savefig("recovery.png")
 #now we want to make a 3 dimensional matrix to input to postamps posteriors.csv (for aU)
 posteriors_data = hddm.load_csv('posteriors.csv')
 a_postamps = pd.DataFrame([posteriors_data['a_subj.0'],posteriors_data['a_subj.1']])
@@ -207,3 +205,4 @@ for i in range(5, 33):
     a_postamps = pd.concat([a_postamps,addition])
 a_postamps = np.expand_dims(a_postamps, axis=1)
 recovery(a_postamps,aU_values)
+
