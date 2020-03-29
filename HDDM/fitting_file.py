@@ -1,6 +1,5 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import hddm
 import numpy as np
 import math
 import random
@@ -8,7 +7,7 @@ import seaborn as sns
 import csv
 import hddm
 import scipy.io as sio
-from scipy import stats
+from scipy import stats as scipy_stats
 from IPython import get_ipython  # Run magic functions from script
 get_ipython().magic('pylab')  # Initialize ipython matplotlib plotting graphics
 
@@ -178,7 +177,7 @@ def recovery(possamps, truevals):  # Parameter recovery plots
     
     for v in range(0, nvars):
         # Compute percentiles
-        bounds = stats.scoreatpercentile(alldata[v, :], (.5, 2.5, 97.5, 99.5))
+        bounds = scipy_stats.scoreatpercentile(alldata[v, :], (.5, 2.5, 97.5, 99.5))
         for b in range(0, 2):
             # Plot credible intervals
             plt.figure(b)
