@@ -130,7 +130,7 @@ stats = m.gen_stats()
 stats[stats.index.isin(['a', 'a_std', 'a_subj.0', 'a_subj.1'])]
 
 # this is used to look at is the trace, the autocorrelation, and the marginal posterior
-plt.figure(2)
+plt.figure(6)
 m.plot_posteriors(['a', 't', 'v', 'a_std'])
 plt.savefig("posteriors.png")
 
@@ -196,8 +196,9 @@ def recovery(possamps, truevals):  # Parameter recovery plots
     tempx = np.linspace(np.min(truevals), np.max(truevals), num=100)
     recoverline = plt.plot(tempx, tempx)
     plt.setp(recoverline, linewidth=3, color=orange)
-    
-#now we want to make a 3 dimensional matrix to input to postamps posteriors.csv (for aU)
+
+"""
+# now we want to make a 3 dimensional matrix to input to postamps posteriors.csv (for aU)
 posteriors_data = hddm.load_csv('posteriors.csv')
 a_postamps = pd.DataFrame([posteriors_data['a_subj.0'],posteriors_data['a_subj.1']])
 for i in range(5, 33):
@@ -206,3 +207,15 @@ for i in range(5, 33):
     a_postamps = pd.concat([a_postamps,addition])
 a_postamps = np.expand_dims(a_postamps, axis=1)
 recovery(a_postamps,aU_values)
+
+# now we want to make a 3 dimensional matrix to input to postamps posteriors.csv (for v)
+posteriors_data = hddm.load_csv('posteriors.csv')
+v_postamps = pd.DataFrame([posteriors_data['v_subj.0'],posteriors_data['v_subj.1']])
+for i in range(69, 97):
+    col_name = posteriors_data.columns[i]
+    addition = pd.DataFrame([posteriors_data[col_name]])
+    v_postamps = pd.concat([v_postamps,addition])
+v_postamps = np.expand_dims(v_postamps, axis=1)
+recovery(v_postamps,v_values)
+
+"""
