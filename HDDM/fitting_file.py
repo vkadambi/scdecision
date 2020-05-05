@@ -51,7 +51,7 @@ def random_parameter() :
     #drift rate
     v = np.random.uniform(-4,4)
     #upper boundary
-    aU = 1
+    aU = np.random.uniform(0.4,2.0)
     #bias
     beta = 0.5
     #time resolution
@@ -200,9 +200,10 @@ def recovery(possamps, truevals):  # Parameter recovery plots
 # now we want to make a 3 dimensional matrix to input to postamps posteriors.csv (for aU)
 posteriors_data = hddm.load_csv('posteriors.csv')
 a_postamps = pd.DataFrame([posteriors_data['a_subj.0'],posteriors_data['a_subj.1']])
-for i in range(5, 33):
+
+for i in range(2, 30):
     col_name = posteriors_data.columns[i]
-    addition = pd.DataFrame([posteriors_data[col_name]])
+    addition = pd.DataFrame([posteriors_data['a_subj.%d' % (i)]])
     a_postamps = pd.concat([a_postamps,addition])
 a_postamps = np.expand_dims(a_postamps, axis=1)
 plt.figure(7)
@@ -212,9 +213,9 @@ plt.savefig("a_postamps.png")
 # now we want to make a 3 dimensional matrix to input to postamps posteriors.csv (for v)
 posteriors_data = hddm.load_csv('posteriors.csv')
 v_postamps = pd.DataFrame([posteriors_data['v_subj.0'],posteriors_data['v_subj.1']])
-for i in range(69, 97):
+for i in range(2, 30):
     col_name = posteriors_data.columns[i]
-    addition = pd.DataFrame([posteriors_data[col_name]])
+    addition = pd.DataFrame([posteriors_data['v_subj.%d' % (i)]])
     v_postamps = pd.concat([v_postamps,addition])
 v_postamps = np.expand_dims(v_postamps, axis=1)
 plt.figure(8)
