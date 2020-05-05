@@ -1,4 +1,4 @@
- import pandas as pd
+import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import math
@@ -11,10 +11,7 @@ from scipy import stats as scipy_stats
 from IPython import get_ipython  # Run magic functions from script
 get_ipython().magic('pylab')  # Initialize ipython matplotlib plotting graphics
 
-from recovery import recovery
-
-#first define the stone function
-def stone (beta,v,aU,s,h,n,maxiter) :
+def stoneEta (beta,v,eta,aU,s,h,n,maxiter) :
     N = int(n)
     Maxiter = int(maxiter)
     rhs = (math.sqrt(h))*s
@@ -23,12 +20,13 @@ def stone (beta,v,aU,s,h,n,maxiter) :
     data = []
     nDotsVector=np.ones(Maxiter)
     for i in range(N):
+        samplev=v+eta*np.random.normal()
         x=beta*aU
         iter=0
         while (iter<=Maxiter):
             nDots = nDotsVector[iter]
             iter=iter+1
-            x=x+h*(v*nDots)+rhs*np.random.normal()
+            x=x+h*(samplev*nDots)+rhs*np.random.normal()
             if (x>=aU):
                 resp.append(float(1.0))
                 break
@@ -44,7 +42,7 @@ def stone (beta,v,aU,s,h,n,maxiter) :
         temp=resp[i]*rt[i]
         data.append(temp)
     return data
-    
+
 def random_parameter() :
     #diffusion coefficient
     s = 1.0
@@ -63,7 +61,7 @@ def random_parameter() :
     #number of steps
     maxiter = 1000
     #return random parameters
-    return beta,v,aU,s,h,n,maxiter
+    return beta,v,eta,aU,s,h,n,maxiter
 
 # generate the data we want using a set of defined parameters, take out the Nans
 rt = [] #response times array
@@ -71,14 +69,14 @@ subj_idx = [] #subject number array
 aU_values  = [] #true values of upper boundary aU
 v_values = [] #true values of drift rate
 for i in range(30):
-    beta,v,aU,s,h,n,maxiter = random_parameter()
-    data = np.array(stone(beta,v,aU,s,h,n,maxiter))
+    beta,v,eta,aU,s,h,n,maxiter = random_parameter()
+    dataEta = np.array(stoneEta(beta,v,eta,aU,s,h,n,maxiter))
     aU_values.append(aU)
     v_values.append(v)
-    data = data[~np.isnan(data)]
-    rt = np.concatenate((rt,data),axis=None)
+    dataEta = dataEta[~np.isnan(dataEta)]
+    rt = np.concatenate((rt,dataEta),axis=None)
     #now add a subject number column
-    for j in range(len(data)):
+    for j in range(len(dataEta)):
         subj_idx.append(i)
 #take out all the Nans
 rt = rt[~np.isnan(rt)]
@@ -95,7 +93,7 @@ for i in range(len(rt)):
     rt[i] = abs(rt[i])
 
 #put the array into a csv file
-f = open('data.csv', 'wb')
+f = open('dataEta.csv', 'wb')
 out = csv.writer(f, delimiter=',')
 out.writerow(["subj_idx","rt","response"])
 for i in range(len(rt)):
@@ -104,14 +102,14 @@ for i in range(len(rt)):
 f.close()
 
 # load the data from the data.csv file into a variable data_stone
-data_stone = hddm.load_csv('data.csv')
+data_stoneEta = hddm.load_csv('dataEta.csv')
 
 # flips the signs back
-data_stone = hddm.utils.flip_errors(data_stone)
+data_stoneEta = hddm.utils.flip_errors(data_stoneEta)
 
 # Instantiate model object passing it data_stone
 # This will tailor an individual hierarchical DDM around the dataset.
-m = hddm.HDDM(data_stone)
+m = hddm.HDDM(data_stoneEta)
 
 # find a good starting point which helps with convergence
 starting_values = m.find_starting_values()
@@ -126,15 +124,15 @@ stats[stats.index.isin(['a', 'a_std', 'a_subj.0', 'a_subj.1'])]
 # this is used to look at is the trace, the autocorrelation, and the marginal posterior
 plt.figure(6)
 m.plot_posteriors(['a', 't', 'v', 'a_std'])
-plt.savefig("posteriors.png")
+plt.savefig("posteriorsEta.png")
 
 # now we want to get the ~2000 samples from the 1 chain for a,t,v (make it a pandas dataframe)
 df_posteriors = pd.DataFrame(m.get_traces())
 
 # put df_posteriors into a csv file
-a = open('posteriors.csv', 'wb')
+a = open('posteriorsEta.csv', 'wb')
 out = csv.writer(a, delimiter=',')
-df_posteriors.to_csv('posteriors.csv', header=True, index=True)
+df_posteriors.to_csv('posteriorsEta.csv', header=True, index=True)
 
 def recovery(possamps, truevals):  # Parameter recovery plots
     """Plots true parameters versus 99% and 95% credible intervals of recovered
@@ -168,7 +166,7 @@ def recovery(possamps, truevals):  # Parameter recovery plots
     blue = np.array([0, 0, 1])
     orange = np.array([1, .3, 0])
     Colors = [teal, blue]
-    
+
     for v in range(0, nvars):
         # Compute percentiles
         bounds = scipy_stats.scoreatpercentile(alldata[v, :], (.5, 2.5, 97.5, 99.5))
@@ -192,26 +190,27 @@ def recovery(possamps, truevals):  # Parameter recovery plots
     plt.setp(recoverline, linewidth=3, color=orange)
 
 # now we want to make a 3 dimensional matrix to input to postamps posteriors.csv (for aU)
-posteriors_data = hddm.load_csv('posteriors.csv')
-a_postamps = pd.DataFrame([posteriors_data['a_subj.0'],posteriors_data['a_subj.1']])
+posteriors_dataEta = hddm.load_csv('posteriorsEta.csv')
+a_postamps = pd.DataFrame([posteriors_dataEta['a_subj.0'],posteriors_dataEta['a_subj.1']])
 
 for i in range(2, 30):
-    col_name = posteriors_data.columns[i]
-    addition = pd.DataFrame([posteriors_data['a_subj.%d' % (i)]])
+    col_name = posteriors_dataEta.columns[i]
+    addition = pd.DataFrame([posteriors_dataEta['a_subj.%d' % (i)]])
     a_postamps = pd.concat([a_postamps,addition])
 a_postamps = np.expand_dims(a_postamps, axis=1)
 plt.figure(7)
 recovery (a_postamps,aU_values)
-plt.savefig("a_postamps.png")
+plt.savefig("a_postampsEta.png")
 
 # now we want to make a 3 dimensional matrix to input to postamps posteriors.csv (for v)
-posteriors_data = hddm.load_csv('posteriors.csv')
-v_postamps = pd.DataFrame([posteriors_data['v_subj.0'],posteriors_data['v_subj.1']])
+posteriors_dataEta = hddm.load_csv('posteriorsEta.csv')
+v_postamps = pd.DataFrame([posteriors_dataEta['v_subj.0'],posteriors_dataEta['v_subj.1']])
 for i in range(2, 30):
-    col_name = posteriors_data.columns[i]
-    addition = pd.DataFrame([posteriors_data['v_subj.%d' % (i)]])
+    col_name = posteriors_dataEta.columns[i]
+    addition = pd.DataFrame([posteriors_dataEta['v_subj.%d' % (i)]])
     v_postamps = pd.concat([v_postamps,addition])
 v_postamps = np.expand_dims(v_postamps, axis=1)
 plt.figure(8)
 recovery (v_postamps,v_values)
-plt.savefig("v_postamps.png")
+plt.savefig("v_postampsEta.png")
+
