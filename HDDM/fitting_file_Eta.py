@@ -49,7 +49,7 @@ def random_parameter() :
     #drift rate
     v = np.random.uniform(-4,4)
     #upper boundary
-    aU = np.random.uniform(0.4,2.0)
+    aU = np.random.uniform(0.4,1.6)
     #bias
     beta = 0.5
     #time resolution
@@ -109,7 +109,7 @@ data_stoneEta = hddm.utils.flip_errors(data_stoneEta)
 
 # Instantiate model object passing it data_stone
 # This will tailor an individual hierarchical DDM around the dataset.
-m = hddm.HDDM(data_stoneEta)
+m = hddm.HDDM(data_stoneEta, include=('sv'))
 
 # find a good starting point which helps with convergence
 starting_values = m.find_starting_values()

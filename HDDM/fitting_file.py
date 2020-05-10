@@ -1,4 +1,4 @@
- import pandas as pd
+import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import math
@@ -10,8 +10,6 @@ import scipy.io as sio
 from scipy import stats as scipy_stats
 from IPython import get_ipython  # Run magic functions from script
 get_ipython().magic('pylab')  # Initialize ipython matplotlib plotting graphics
-
-from recovery import recovery
 
 #first define the stone function
 def stone (beta,v,aU,s,h,n,maxiter) :
@@ -51,7 +49,7 @@ def random_parameter() :
     #drift rate
     v = np.random.uniform(-4,4)
     #upper boundary
-    aU = np.random.uniform(0.4,2.0)
+    aU = np.random.uniform(1.4,2.0)
     #bias
     beta = 0.5
     #time resolution
@@ -59,6 +57,7 @@ def random_parameter() :
     #number of trials
     n = 100
     #trial variability of the drift rate
+    
     eta = np.random.uniform(0,2)
     #number of steps
     maxiter = 1000

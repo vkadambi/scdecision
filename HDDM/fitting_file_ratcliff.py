@@ -49,7 +49,7 @@ def random_parameter() :
     #drift rate
     v = np.random.uniform(-4,4)
     #upper boundary
-    aU = np.random.uniform(0.4,2.0)
+    aU = np.random.uniform(0.4,1.6)
     #bias
     beta = 0.5
     #time resolution
@@ -60,7 +60,7 @@ def random_parameter() :
     eta = np.random.uniform(0,2)
     #number of steps
     maxiter = 1000
-    # bias min and max
+    # bias min and max (only things we have added to ratcliff) 
     zmin = 0
     zmax = 1
     #return random parameters
@@ -112,7 +112,7 @@ data_ratcliff = hddm.utils.flip_errors(data_ratcliff)
 
 # Instantiate model object passing it data_stone
 # This will tailor an individual hierarchical DDM around the dataset.
-m = hddm.HDDM(data_ratcliff)
+m = hddm.HDDM(data_ratcliff, informative = False)
 
 # find a good starting point which helps with convergence
 starting_values = m.find_starting_values()
