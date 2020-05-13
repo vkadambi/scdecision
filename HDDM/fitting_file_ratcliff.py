@@ -112,7 +112,7 @@ data_ratcliff = hddm.utils.flip_errors(data_ratcliff)
 
 # Instantiate model object passing it data_stone
 # This will tailor an individual hierarchical DDM around the dataset.
-m = hddm.HDDM(data_ratcliff, informative = False)
+m = hddm.HDDM(data_ratcliff, informative = False, include=('sv', 'st', 'sz'))
 
 # find a good starting point which helps with convergence
 starting_values = m.find_starting_values()
