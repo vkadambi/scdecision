@@ -60,20 +60,33 @@ def random_parameter() :
     eta = np.random.uniform(0,2)
     #number of steps
     maxiter = 1000
+    # decision time t
+    t = np.random.uniform(0.0,0.4)
     #return random parameters
-    return beta,v,eta,aU,s,h,n,maxiter
+    return beta,v,eta,aU,s,h,n,maxiter,t
 
 # generate the data we want using a set of defined parameters, take out the Nans
 rt = [] #response times array
 subj_idx = [] #subject number array
 aU_values  = [] #true values of upper boundary aU
 v_values = [] #true values of drift rate
+t_values = [] #decision time
 for i in range(30):
-    beta,v,eta,aU,s,h,n,maxiter = random_parameter()
+    beta,v,eta,aU,s,h,n,maxiter,t = random_parameter()
     dataEta = np.array(stoneEta(beta,v,eta,aU,s,h,n,maxiter))
     aU_values.append(aU)
     v_values.append(v)
     dataEta = dataEta[~np.isnan(dataEta)]
+    t_values.append(t)
+    updated_rt = []
+    for k in dataEta:
+        if (k >= 0):
+            value = k+t
+            updated_rt.append(value)
+        if (k < 0):
+            value = k-t
+            updated_rt.append(value)
+    data = np.array(updated_rt)
     rt = np.concatenate((rt,dataEta),axis=None)
     #now add a subject number column
     for j in range(len(dataEta)):
@@ -214,3 +227,14 @@ plt.figure(8)
 recovery (v_postamps,v_values)
 plt.savefig("v_postampsEta.png")
 
+# now we want to make a 3 dimensional matrix to input to postamps posteriors.csv (for t)
+posteriors_dataEta = hddm.load_csv('posteriorsEta.csv')
+t_postamps = pd.DataFrame([posteriors_dataEta['t_subj.0'],posteriors_dataEta['t_subj.1']])
+for i in range(2, 30):
+    col_name = posteriors_dataEta.columns[i]
+    addition = pd.DataFrame([posteriors_dataEta['t_subj.%d' % (i)]])
+    t_postamps = pd.concat([t_postamps,addition])
+t_postamps = np.expand_dims(t_postamps, axis=1)
+plt.figure(9)
+recovery (t_postamps,t_values)
+plt.savefig("t_postampsEta.png")

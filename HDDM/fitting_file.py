@@ -77,8 +77,16 @@ for i in range(30):
     aU_values.append(aU)
     v_values.append(v)
     data = data[~np.isnan(data)]
-    data = data + t # vectorized addition function
     t_values.append(t)
+    updated_rt = []
+    for k in data:
+        if (k >= 0):
+            value = k+t
+            updated_rt.append(value)
+        if (k < 0):
+            value = k-t
+            updated_rt.append(value)
+    data = np.array(updated_rt)
     rt = np.concatenate((rt,data),axis=None)
     #now add a subject number column
     for j in range(len(data)):
@@ -226,6 +234,6 @@ for i in range(2, 30):
     addition = pd.DataFrame([posteriors_data['t_subj.%d' % (i)]])
     t_postamps = pd.concat([t_postamps,addition])
 t_postamps = np.expand_dims(t_postamps, axis=1)
-plt.figure(8)
+plt.figure(9)
 recovery (t_postamps,t_values)
 plt.savefig("t_postamps.png")
